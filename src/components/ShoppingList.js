@@ -13,8 +13,24 @@ function ShoppingList() {
     .then((items) => setItems(items));
   }, [])
 
+  function handleUpdateItem(updatedItem) {
+    const updatedItems = items.map((item) => {
+      if (item.id === updatedItem.id) {
+        return updatedItem;
+      } else {
+        return item;
+      }
+    });
+    setItems(updatedItems);
+  }
+
   function handleAddItem(newItem) {
     setItems([...items, newItem])
+  }
+
+  function handleDeleteItem(deletedItem) {
+    const updatedItems = items.filter((item) => item.id !== deletedItem.id);
+    setItems(updatedItems);
   }
 
   function handleCategoryChange(category) {
@@ -36,7 +52,12 @@ function ShoppingList() {
       />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} />
+          <Item 
+            key={item.id} 
+            item={item} 
+            onUpdateItem={handleUpdateItem} 
+            onDeleteItem={handleDeleteItem}
+          />
         ))}
       </ul>
     </div>
